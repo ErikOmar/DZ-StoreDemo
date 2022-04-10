@@ -2,22 +2,38 @@ package it.lab.store.demo.model.store;
 
 public class StoreDto {
 
-    private String addresss;
+    /**
+     * address represents  the street, avenue, ect where the store is located
+     * this field doesn't include the address number.
+     */
+    private String address;
 
+    /**
+     * address_number represents stores the number of the address where the street is located
+     */
     private String  addressNumber;
 
+    /**
+     * neightborhood represents the neighborhood where the store is located
+     */
     private String neightborhood;
 
+    /**
+     * postal_code represents the neighborhood where the store is located
+     */
     private String postalCode;
 
+    /**
+     * state represents the state where the store is located
+     */
     private String state;
 
-    public String getAddresss() {
-        return addresss;
+    public String getAddress() {
+        return address;
     }
 
-    public void setAddresss(String addresss) {
-        this.addresss = addresss;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public String getAddressNumber() {
@@ -56,7 +72,7 @@ public class StoreDto {
     public String toString() {
         return String.format("%s] address: %s, addressNumber: %s neightborhood: %s, postalCode: %s, state: %s",
                 getClass().getSimpleName(),
-                addresss,
+                address,
                 addressNumber,
                 neightborhood,
                 postalCode,

@@ -9,8 +9,8 @@ public interface StoreDao {
 
     List<StoreEntity> findAll();
     StoreEntity findStore(String storeId);
-    StoreEntity add(StoreEntity store);
-    StoreEntity update(StoreDto store, String storeId);
-    StoreEntity delete(String storeId);
+    boolean add(StoreEntity store);
+    boolean update(StoreDto store, String storeId);
+    boolean delete(String storeId);
 
 }

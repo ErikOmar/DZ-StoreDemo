@@ -1,4 +1,4 @@
-package it.lab.store.demo.services;
+package it.lab.store.demo.services.store;
 
 import it.lab.store.demo.dao.store.StoreDao;
 import it.lab.store.demo.model.store.StoreDto;
@@ -22,17 +22,30 @@ public class StoreService {
     @Autowired
     private StoreDao storeDao;
 
+    /**
+     * Get the list of all stores.
+     * @return object with the list of all stores, an attribute if any error exists, and a list with messages
+     * to represent the result of the request.
+     */
     public ApiResponseList<StoreEntity> getStores() {
         ApiResponseList<StoreEntity> result = new ApiResponseList<>(new ArrayList<>());
         try {
             List<StoreEntity> storeList = storeDao.findAll();
             result.setList(storeList);
+            result.addMessage(ApiMessage.MessageType.Success,
+                    "The Store List has been obtained successfully");
         } catch (DataAccessException dae) {
             result.addMessage(ApiMessage.MessageType.Error, "There is a problem reading data from the database");
         }
         return result;
     }
 
+    /**
+     * Add new store to the table stores.
+     * @param storeDto representing the values of the store to add.
+     * @return object with the store added, an attribute if any error exists, and a list with messages
+     * to represent the result of the request.
+     */
     public ApiResponse<StoreEntity> add(StoreDto storeDto) {
         ApiResponse<StoreEntity> result = new ApiResponse<>();
         try {
@@ -41,6 +54,8 @@ public class StoreService {
 
             storeDao.add(storeEntity);
             result.setElement(storeEntity);
+            result.addMessage(ApiMessage.MessageType.Success,
+                    "Store has been created successfully");
         } catch (DataIntegrityViolationException dae) {
             result.addMessage(ApiMessage.MessageType.Error, "There is a problem adding data to the database");
         }
@@ -48,7 +63,11 @@ public class StoreService {
         return result;
     }
 
-    public String generateStoreId() {
+    /**
+     * Generate a random string to represent the identifier of the store.
+     * @return a 8 string long to identifier a store.
+     */
+    private String generateStoreId() {
         String SALTCHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
         StringBuilder salt = new StringBuilder();
         Random rnd = new Random();
@@ -60,11 +79,23 @@ public class StoreService {
         return saltStr;
     }
 
+
+    /**
+     * Modify the values of an existing store.
+     * @param storeDto representing the values of the store to modify.
+     * @param storeId the value of the store to modify.
+     * @return object with the store modified, an attribute if any error exists, and a list with messages
+     * to represent the result of the request.
+     */
     public ApiResponse<StoreEntity> edit(StoreDto storeDto, String storeId) {
         ApiResponse<StoreEntity> result = new ApiResponse<>();
         try {
-            StoreEntity storeEntity = storeDao.update(storeDto, storeId);
-            result.setElement(storeEntity);
+            storeDao.update(storeDto, storeId);
+            result.setElement(StoreEntity.create(storeDto));
+            result.addMessage(ApiMessage.MessageType.Success,
+                    "Store has been updated successfully");
+            result.addMessage(ApiMessage.MessageType.Success,
+                    "Store has been modified successfully");
         } catch (DataAccessException dae) {
             result.addMessage(ApiMessage.MessageType.Error, "There is a problem updating data to the database");
         }
@@ -72,6 +103,12 @@ public class StoreService {
         return result;
     }
 
+    /**
+     * Remove a store by an identifier.
+     * @param storeId represents identifier to remove.
+     * @return object with the store removed, an attribute if any error exists, and a list with messages
+     * to represent the result of the request.
+     */
     public ApiResponse<StoreEntity> remove(String storeId) {
         ApiResponse<StoreEntity> result = new ApiResponse<>();
         try {
@@ -79,11 +116,14 @@ public class StoreService {
             StoreEntity storeEntity = storeDao.findStore(storeId);
             if( storeEntity == null){
                 result.addMessage(ApiMessage.MessageType.Error, "The store does not exist");
+                return result;
             } else {
                 storeDao.delete(storeId);
             }
 
             result.setElement(storeEntity);
+            result.addMessage(ApiMessage.MessageType.Success,
+                    "Store has been removed successfully");
         } catch (DataAccessException dae) {
             result.addMessage(ApiMessage.MessageType.Error, "There is a problem deleting data to the database");
         }

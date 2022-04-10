@@ -45,6 +45,10 @@ public class ApiResponseList<T> {
 
 
     public void addMessage(ApiMessage.MessageType messageType, String message){
+        if(listMessages == null){
+            listMessages = new ArrayList<>();
+        }
+
         if(messageType == ApiMessage.MessageType.Error){
             hasError = true;
         }

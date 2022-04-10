@@ -8,33 +8,49 @@ import java.util.Date;
 @Table(name = "store")
 public class StoreEntity implements Serializable {
 
-    // char(8)
+
+    /**
+     * store_id stores a unique calculated char(8) to identify the store
+     */
     @Id
     @Column(name = "store_id", nullable = false, unique = true, updatable = false, length = 8)
     private String storeId;
 
-    // varchar(100)
+    /**
+     * address stores a varchar(100) representing the street, avenue, ect where the store is located
+     * this field doesn't include the address number.
+     */
     @Column(name = "addresss", nullable = false, length = 100)
     private String addresss;
 
-    // varchar(8)
+    /**
+     * address_number a varchar(8) representing stores the number of the address where the street is located
+     */
     @Column(name = "address_number", nullable = false, length = 8)
     private String  addressNumber;
 
-    // varchar(60)
+    /**
+     * neightborhood stores a varchar(60) representing the neighborhood where the store is located
+     */
     @Column(name = "neightborhood", nullable = false, length = 60)
     private String neightborhood;
 
-    // varchar(9)
+    /**
+     * postal_code stores a varchar(9) representing the neighborhood where the store is located
+     */
     @Column(name = "postal_code", nullable = false, length = 9)
     private String postalCode;
 
-    // timestamp
+    /**
+     * lastUpdateDate stores a timestamp with the date and time of the last change
+     */
     @Column(name = "last_update_date", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date lastUpdateDate;
 
-    // varchar(30)
+    /**
+     * state stores a varchar(30) representing the state where the store is located
+     */
     @Column(name = "state", nullable = false, length = 30)
     private String state;
 
@@ -96,13 +112,14 @@ public class StoreEntity implements Serializable {
 
     @Override
     public String toString() {
-        return String.format("%s] storeId: %s, address: %s, addressNumber: %s neightborhood: %s, postalCode: %s, lastUpdateDate: %s, state: %s",
+        return String.format("%s] storeId: %s, address: %s, addressNumber: %s, neightborhood: %s, postalCode: %s, lastUpdateDate: %s, state: %s",
                 getClass().getSimpleName(),
                 storeId,
                 addresss,
                 addressNumber,
                 neightborhood,
                 postalCode,
+                lastUpdateDate,
                 state);
     }
 
@@ -113,7 +130,7 @@ public class StoreEntity implements Serializable {
      */
     public static StoreEntity create(StoreDto storeDto){
         StoreEntity storeEntity = new StoreEntity();
-        storeEntity.setAddresss(storeDto.getAddresss());
+        storeEntity.setAddresss(storeDto.getAddress());
         storeEntity.setAddressNumber(storeDto.getAddressNumber());
         storeEntity.setNeightborhood(storeDto.getNeightborhood());
         storeEntity.setPostalCode(storeDto.getPostalCode());
