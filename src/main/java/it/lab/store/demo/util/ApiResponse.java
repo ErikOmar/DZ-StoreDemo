@@ -1,31 +1,25 @@
-package it.lab.store.demo.model.store.util;
+package it.lab.store.demo.util;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ApiResponseList<T> {
+public class ApiResponse<T> {
 
-    private List<T> list;
+    private T element;
     private boolean hasError;
     private boolean hasWarning;
     private List<ApiMessage> listMessages;
 
-    public ApiResponseList() {
+    public ApiResponse() {
         listMessages = new ArrayList<>();
-        hasError = false;
     }
 
-    public ApiResponseList(List<T> list) {
-        this.list = list;
-        hasError = false;
+    public T getElement() {
+        return element;
     }
 
-    public List<T> getList() {
-        return list;
-    }
-
-    public void setList(List<T> list) {
-        this.list = list;
+    public void setElement(T element) {
+        this.element = element;
     }
 
     public boolean getHasError() {
@@ -52,12 +46,10 @@ public class ApiResponseList<T> {
         this.listMessages = listMessages;
     }
 
-
     public void addMessage(ApiMessage.MessageType messageType, String message){
-        if(listMessages == null){
+        if (listMessages == null){
             listMessages = new ArrayList<>();
         }
-
         if(messageType == ApiMessage.MessageType.Error){
             hasError = true;
         }

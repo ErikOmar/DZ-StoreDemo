@@ -1,4 +1,4 @@
-package it.lab.store.demo.model.store.util;
+package it.lab.store.demo.util;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

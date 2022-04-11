@@ -3,9 +3,9 @@ package it.lab.store.demo.services.store;
 import it.lab.store.demo.dao.store.StoreDao;
 import it.lab.store.demo.model.store.StoreDto;
 import it.lab.store.demo.model.store.StoreEntity;
-import it.lab.store.demo.model.store.util.ApiMessage;
-import it.lab.store.demo.model.store.util.ApiResponse;
-import it.lab.store.demo.model.store.util.ApiResponseList;
+import it.lab.store.demo.util.ApiMessage;
+import it.lab.store.demo.util.ApiResponse;
+import it.lab.store.demo.util.ApiResponseList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -20,6 +20,9 @@ public class StoreService {
 
     @Autowired
     private StoreDao storeDao;
+
+    @Autowired
+    private StoreNumberService storeNumberService;
 
     /**
      * Get the list of all stores.
@@ -54,7 +57,7 @@ public class StoreService {
             }
 
             StoreEntity storeEntity = StoreEntity.create(storeDto);
-            storeEntity.setStoreId(generateStoreId());
+            storeEntity.setStoreId(getGeneratedStoreId());
 
             storeDao.add(storeEntity);
             result.setElement(storeEntity);
@@ -68,19 +71,11 @@ public class StoreService {
     }
 
     /**
-     * Generate a random string to represent the identifier of the store.
+     * Get the generated identifier of the store.
      * @return a 8 string long to identifier a store.
      */
-    private String generateStoreId() {
-        String SALTCHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
-        StringBuilder salt = new StringBuilder();
-        Random rnd = new Random();
-        while (salt.length() < 8) { // length of the random string.
-            int index = (int) (rnd.nextFloat() * SALTCHARS.length());
-            salt.append(SALTCHARS.charAt(index));
-        }
-        String saltStr = salt.toString();
-        return saltStr;
+    private String getGeneratedStoreId() {
+        return storeNumberService.GetNextStoreId();
     }
 
 
@@ -96,6 +91,11 @@ public class StoreService {
         try {
 
             if(!isValidStore(storeDto, result)){
+                return result;
+            }
+
+            if(GetStoreById(storeId) == null){
+                result.addMessage(ApiMessage.MessageType.Error, "The store does not exist");
                 return result;
             }
 
@@ -121,15 +121,13 @@ public class StoreService {
     public ApiResponse<StoreEntity> remove(String storeId) {
         ApiResponse<StoreEntity> result = new ApiResponse<>();
         try {
-
-            StoreEntity storeEntity = storeDao.findStore(storeId);
-            if( storeEntity == null){
+            StoreEntity storeEntity = GetStoreById(storeId);
+            if(storeEntity == null){
                 result.addMessage(ApiMessage.MessageType.Error, "The store does not exist");
                 return result;
-            } else {
-                storeDao.delete(storeId);
             }
 
+            storeDao.delete(storeId);
             result.setElement(storeEntity);
             result.addMessage(ApiMessage.MessageType.Success,
                     "Store has been removed successfully");
@@ -138,6 +136,10 @@ public class StoreService {
         }
 
         return result;
+    }
+
+    private StoreEntity GetStoreById(String storeId){
+       return storeDao.findStore(storeId);
     }
 
     private boolean isValidStore(StoreDto storeDto, ApiResponse<StoreEntity> result){

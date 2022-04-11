@@ -2,8 +2,8 @@ package it.lab.store.demo.services.store;
 
 import it.lab.store.demo.TestData.StoreData;
 import it.lab.store.demo.model.store.StoreEntity;
-import it.lab.store.demo.model.store.util.ApiResponse;
-import it.lab.store.demo.model.store.util.ApiResponseList;
+import it.lab.store.demo.util.ApiResponse;
+import it.lab.store.demo.util.ApiResponseList;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
