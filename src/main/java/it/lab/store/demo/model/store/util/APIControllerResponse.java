@@ -21,6 +21,11 @@ public class APIControllerResponse {
         if(resultado.getHasError()) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(resultado);
         }
+
+        if(resultado.getHasWarning()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(resultado);
+        }
+
         if(resultado.getElement() == null) {
             return ResponseEntity.notFound().build();
         }

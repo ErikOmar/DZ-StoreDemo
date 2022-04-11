@@ -7,6 +7,7 @@ public class ApiResponseList<T> {
 
     private List<T> list;
     private boolean hasError;
+    private boolean hasWarning;
     private List<ApiMessage> listMessages;
 
     public ApiResponseList() {
@@ -35,6 +36,14 @@ public class ApiResponseList<T> {
         this.hasError = hasError;
     }
 
+    public boolean getHasWarning() {
+        return hasWarning;
+    }
+
+    public void setHasWarning(boolean hasWarning) {
+        this.hasWarning = hasWarning;
+    }
+
     public List<ApiMessage> getListMessages() {
         return listMessages;
     }
@@ -51,6 +60,10 @@ public class ApiResponseList<T> {
 
         if(messageType == ApiMessage.MessageType.Error){
             hasError = true;
+        }
+
+        if(messageType == ApiMessage.MessageType.Warning){
+            hasWarning = true;
         }
 
         listMessages.add(new ApiMessage(message, messageType));
