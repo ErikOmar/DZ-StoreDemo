@@ -1,4 +1,4 @@
-package it.lab.store.demo.util;
+package it.lab.store.demo.model.store.util;
 
 
 public class ApiMessage {

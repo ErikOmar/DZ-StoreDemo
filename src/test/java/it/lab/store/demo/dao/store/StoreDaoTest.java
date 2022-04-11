@@ -1,9 +1,7 @@
 package it.lab.store.demo.dao.store;
 
 import it.lab.store.demo.TestData.StoreData;
-import it.lab.store.demo.model.store.StoreDto;
 import it.lab.store.demo.model.store.StoreEntity;
-import it.lab.store.demo.util.ApiResponse;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -71,7 +69,7 @@ public class StoreDaoTest {
     private boolean checkIfIsUpdated(StoreEntity actualEntity, StoreEntity updatedEntity){
         boolean isUpdated = true;
 
-        if (!actualEntity.getAddresss().equals(updatedEntity.getAddresss())) isUpdated = false;
+        if (!actualEntity.getAddress().equals(updatedEntity.getAddress())) isUpdated = false;
         if (!actualEntity.getAddressNumber().equals(updatedEntity.getAddressNumber())) isUpdated = false;
         if (!actualEntity.getNeightborhood().equals(updatedEntity.getNeightborhood())) isUpdated = false;
         if (!actualEntity.getPostalCode().equals(updatedEntity.getPostalCode())) isUpdated = false;

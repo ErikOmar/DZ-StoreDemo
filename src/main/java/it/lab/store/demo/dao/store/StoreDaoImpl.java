@@ -66,7 +66,7 @@ public class StoreDaoImpl implements StoreDao {
         try {
             StoreEntity storeEntity = findStore(storeId);
 
-            storeEntity.setAddresss(store.getAddress());
+            storeEntity.setAddress(store.getAddress());
             storeEntity.setAddressNumber( store.getAddressNumber());
             storeEntity.setNeightborhood(store.getNeightborhood());
             storeEntity.setPostalCode(store.getPostalCode());

@@ -5,7 +5,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 @Entity
-@Table(name = "store")
+@Table(name = "stores")
 public class StoreEntity implements Serializable {
 
 
@@ -20,8 +20,8 @@ public class StoreEntity implements Serializable {
      * address stores a varchar(100) representing the street, avenue, ect where the store is located
      * this field doesn't include the address number.
      */
-    @Column(name = "addresss", nullable = false, length = 100)
-    private String addresss;
+    @Column(name = "address", nullable = false, length = 100)
+    private String address;
 
     /**
      * address_number a varchar(8) representing stores the number of the address where the street is located
@@ -62,12 +62,12 @@ public class StoreEntity implements Serializable {
         this.storeId = storeId;
     }
 
-    public String getAddresss() {
-        return addresss;
+    public String getAddress() {
+        return address;
     }
 
-    public void setAddresss(String addresss) {
-        this.addresss = addresss;
+    public void setAddress(String addresss) {
+        this.address = addresss;
     }
 
     public String getAddressNumber() {
@@ -115,7 +115,7 @@ public class StoreEntity implements Serializable {
         return String.format("%s] storeId: %s, address: %s, addressNumber: %s, neightborhood: %s, postalCode: %s, lastUpdateDate: %s, state: %s",
                 getClass().getSimpleName(),
                 storeId,
-                addresss,
+                address,
                 addressNumber,
                 neightborhood,
                 postalCode,
@@ -130,7 +130,7 @@ public class StoreEntity implements Serializable {
      */
     public static StoreEntity create(StoreDto storeDto){
         StoreEntity storeEntity = new StoreEntity();
-        storeEntity.setAddresss(storeDto.getAddress());
+        storeEntity.setAddress(storeDto.getAddress());
         storeEntity.setAddressNumber(storeDto.getAddressNumber());
         storeEntity.setNeightborhood(storeDto.getNeightborhood());
         storeEntity.setPostalCode(storeDto.getPostalCode());

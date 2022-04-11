@@ -3,15 +3,14 @@ package it.lab.store.demo.services.store;
 import it.lab.store.demo.dao.store.StoreDao;
 import it.lab.store.demo.model.store.StoreDto;
 import it.lab.store.demo.model.store.StoreEntity;
-import it.lab.store.demo.util.ApiMessage;
-import it.lab.store.demo.util.ApiResponse;
-import it.lab.store.demo.util.ApiResponseList;
+import it.lab.store.demo.model.store.util.ApiMessage;
+import it.lab.store.demo.model.store.util.ApiResponse;
+import it.lab.store.demo.model.store.util.ApiResponseList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
-import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -33,7 +32,7 @@ public class StoreService {
             List<StoreEntity> storeList = storeDao.findAll();
             result.setList(storeList);
             result.addMessage(ApiMessage.MessageType.Success,
-                    "The Store List has been obtained successfully");
+                    "The list of stores has been obtained successfully");
         } catch (DataAccessException dae) {
             result.addMessage(ApiMessage.MessageType.Error, "There is a problem reading data from the database");
         }
@@ -49,6 +48,11 @@ public class StoreService {
     public ApiResponse<StoreEntity> add(StoreDto storeDto) {
         ApiResponse<StoreEntity> result = new ApiResponse<>();
         try {
+
+            if(!isValidStore(storeDto, result)){
+                return result;
+            }
+
             StoreEntity storeEntity = StoreEntity.create(storeDto);
             storeEntity.setStoreId(generateStoreId());
 
@@ -90,12 +94,17 @@ public class StoreService {
     public ApiResponse<StoreEntity> edit(StoreDto storeDto, String storeId) {
         ApiResponse<StoreEntity> result = new ApiResponse<>();
         try {
+
+            if(!isValidStore(storeDto, result)){
+                return result;
+            }
+
             storeDao.update(storeDto, storeId);
-            result.setElement(StoreEntity.create(storeDto));
+            StoreEntity storeEntity = StoreEntity.create(storeDto);
+            storeEntity.setStoreId(storeId);
+            result.setElement(storeEntity);
             result.addMessage(ApiMessage.MessageType.Success,
                     "Store has been updated successfully");
-            result.addMessage(ApiMessage.MessageType.Success,
-                    "Store has been modified successfully");
         } catch (DataAccessException dae) {
             result.addMessage(ApiMessage.MessageType.Error, "There is a problem updating data to the database");
         }
@@ -129,6 +138,47 @@ public class StoreService {
         }
 
         return result;
+    }
+
+    private boolean isValidStore(StoreDto storeDto, ApiResponse<StoreEntity> result){
+        boolean allValuesAreCorrect = true;
+
+        if(!storeDto.getAddress().isEmpty()){
+            if(storeDto.getAddress().length() > 100){
+                allValuesAreCorrect = false;
+                result.addMessage(ApiMessage.MessageType.Warning, "The address value is not valid");
+            }
+        }
+
+        if(!storeDto.getAddressNumber().isEmpty()){
+            if(storeDto.getAddressNumber().length() > 8){
+                allValuesAreCorrect = false;
+                result.addMessage(ApiMessage.MessageType.Warning, "The addressNumber value is not valid");
+            }
+        }
+
+        if(!storeDto.getNeightborhood().isEmpty()){
+            if(storeDto.getNeightborhood().length() > 60){
+                allValuesAreCorrect = false;
+                result.addMessage(ApiMessage.MessageType.Warning, "The neightborhood value is not valid");
+            }
+        }
+
+        if(!storeDto.getPostalCode().isEmpty()){
+            if(storeDto.getPostalCode().length() > 9){
+                allValuesAreCorrect = false;
+                result.addMessage(ApiMessage.MessageType.Warning, "The postalCode value is not valid");
+            }
+        }
+
+         if(!storeDto.getState().isEmpty()){
+            if(storeDto.getState().length() > 30){
+                allValuesAreCorrect = false;
+                result.addMessage(ApiMessage.MessageType.Warning, "The State value is not valid");
+            }
+        }
+
+       return allValuesAreCorrect;
     }
 
 }

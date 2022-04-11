@@ -1,16 +1,13 @@
 package it.lab.store.demo.services.store;
 
 import it.lab.store.demo.TestData.StoreData;
-import it.lab.store.demo.model.store.StoreDto;
 import it.lab.store.demo.model.store.StoreEntity;
-import it.lab.store.demo.util.ApiResponse;
-import it.lab.store.demo.util.ApiResponseList;
+import it.lab.store.demo.model.store.util.ApiResponse;
+import it.lab.store.demo.model.store.util.ApiResponseList;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
-
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -69,7 +66,7 @@ public class StoreServiceTest {
     }
 
     @Test
-    public void testGetRevome() {
+    public void testGetRemove() {
         ApiResponse<StoreEntity> result = storeService.remove(StoreData.getStoreId());
         assertNotNull(result.getElement(), "Element must return value");
 

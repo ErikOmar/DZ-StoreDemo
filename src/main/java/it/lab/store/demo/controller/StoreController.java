@@ -2,15 +2,15 @@ package it.lab.store.demo.controller;
 
 import it.lab.store.demo.model.store.StoreDto;
 import it.lab.store.demo.model.store.StoreEntity;
-import it.lab.store.demo.util.ApiResponse;
-import it.lab.store.demo.util.ApiResponseList;
+import it.lab.store.demo.model.store.util.ApiResponse;
+import it.lab.store.demo.model.store.util.ApiResponseList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import it.lab.store.demo.services.store.StoreService;
 
-import static it.lab.store.demo.util.APIControllerResponse.setApiResponse;
+import static it.lab.store.demo.model.store.util.APIControllerResponse.setApiResponse;
 
 @RestController
 @RequestMapping("/v1/store")
