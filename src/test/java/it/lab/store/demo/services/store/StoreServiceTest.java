@@ -67,6 +67,8 @@ public class StoreServiceTest {
 
     @Test
     public void testGetRemove() {
+        String _storeId = "STR00001";
+
         ApiResponse<StoreEntity> result = storeService.remove(StoreData.getStoreId());
         assertNotNull(result.getElement(), "Element must return value");
 

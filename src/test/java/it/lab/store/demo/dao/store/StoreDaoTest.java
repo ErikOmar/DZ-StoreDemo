@@ -26,7 +26,7 @@ public class StoreDaoTest {
 
     @Test
     public void testFindByStoreId() {
-        StoreEntity storeEntity = storeDao.findStore("STR00001");
+        StoreEntity storeEntity = storeDao.findStore(StoreData.getStoreId());
         assertNotNull(storeEntity, "The store couldn't be find");
     }
 
@@ -82,11 +82,12 @@ public class StoreDaoTest {
 
     @Test
     public void testRemovedStore(){
+        String _storeId = "STR00001";
 
-        boolean isRemoved = storeDao.delete(StoreData.getStoreId());
+        boolean isRemoved = storeDao.delete(_storeId);
         assertFalse(!isRemoved, "The store could not be removed");
 
-        StoreEntity storeEntity = storeDao.findStore(StoreData.getStoreId());
+        StoreEntity storeEntity = storeDao.findStore(_storeId);
         assertNull(storeEntity, "The store could not be removed");
     }
 
