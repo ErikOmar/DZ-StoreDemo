@@ -6,7 +6,7 @@ import it.lab.store.demo.model.store.StoreEntity;
 public class StoreData {
 
     private static StoreDto storeDto;
-    private static String storeId = "STORE002";
+    private static String storeId = "STR00002";
 
 
     public static String getStoreId() {

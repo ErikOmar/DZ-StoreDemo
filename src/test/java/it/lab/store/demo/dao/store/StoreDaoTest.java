@@ -26,7 +26,8 @@ public class StoreDaoTest {
 
     @Test
     public void testFindByStoreId() {
-
+        StoreEntity storeEntity = storeDao.findStore("STR00001");
+        assertNotNull(storeEntity, "The store couldn't be find");
     }
 
     @Test
